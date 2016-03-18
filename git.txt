@@ -1,0 +1,20 @@
+Добавление отслеживания:
+git add :/
+
+Коммит:
+git commit -a -m 'комментарий'
+
+Загрузка на сервер:
+git push
+
+Узнать статус:
+git status
+
+Удаление файла:
+git rm file
+
+Клонирование ветки на жесткий диск:
+git clone https://github.com/your_account/stepic_web_project.git /home/box/web
+
+Для просмотра структуры директорий:
+ls -R | grep ":" | sed -e 's/://' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'

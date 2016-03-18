@@ -1,0 +1,50 @@
+1. Создаём файл (nginx.conf) с частью конфига сервера и пишем в нём только группы URL, например:
+###
+server {
+	listen 			80 default_server;
+	location / {
+		return 404;
+		}
+	location ^~ /uploads/ {
+		root		/home/dmitry/web/;
+		}
+	location ~* ^.+\.\w+$ {
+		root 		/home/dmitry/web/public/;
+		}
+
+
+	}
+###
+Про регулярные выражения в location читать regexp.pdf или Regulyarnye_Vyrazhenia.pdf в этой папке.
+
+2. Далее создаётся файл (init.sh), в котором описываются дальнейшие действия:
+###
+sudo ln -sf /home/dmitry/web/etc/nginx.conf /etc/nginx/sites-enabled/test.conf
+sudo rm /etc/nginx/sites-enabled/default
+sudo /etc/init.d/nginx restart
+####
+В первой строке мы создают символьную ссылку на файл nginx.conf (из 1-го пункта) и размещаем её (test.conf) в папке /etc/nginx/sites-enabled/. Эта папка include в основном конфиг файле и файл из нее подгружается во время загрузки сервера.
+Во второй строке мы удаляем файл default из той же папки, чтобы он не запустился вместо нашей ссылки test.conf.
+В третьей строке происходит запуск init-скрипта для запуска (перезапуска) сервера.
+
+3. После создания этого init.sh файла, требуется его запустить при помощи команды:
+bash init.sh
+Сервер должен перезапустить с новыми параметрами. Для проверки запуска нужно использовать команду:
+nginx -t
+
+4. Для проверки можно использовать команду:
+curl [-I] http://localhost/папка
+или попытаться сделать это в браузере
+
+5. Если выбивает ошибку 403, значит нужно проверить права доступа:
+Атрибуты пользователя и группы процесса:
+ps -o pid,euser,egroup,comm,args -C nginx
+Атрибуты файла:
+ls -lah папка/index.html
+
+Для смены атрибутов используется команда:
+chmod a+rx папка/index.html
+Подробнее: http://linuxway.ru/pervye-shagi/komanda-chmod-primery-ispolzovaniya/
+
+Для просмотра структуры директорий:
+ls -R | grep ":" | sed -e 's/://' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'

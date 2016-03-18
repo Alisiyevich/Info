@@ -1,0 +1,25 @@
+1. Создаете репозиторий на гитхабе.
+2. Клонируете его себе на на компьютер. (git clone https://github.com/name/rep.git)
+3. Создаете фаил с кодом внутри папки репозитория. ?
+4. Пушите фаил в репозиторий на гитхаб. (git ?add .) (git commit -m "init") (git push origin master)?
+?5. Клонируете репозиторий в консоли степика. (git clone https://github.com/Alisiyevich/Web-tehnologii)?
+6. Запускаете программу.
+Просмотр содержимого папки в консоли: ls
+http://macmaniac.ru/2012/10/ls-cd-from-the-terminal/
+http://appstudio.org/articles/sekrety-terminala-chast-2-prosmotr-pap.html
+
+
+ну или можно инициализировать репозиторий прямо с компьютера например, или из консоли степика (git init)
+--------------
+Репозиторий должен быть склонирован в директорию /home/box/web  на виртуальной машине.
+Загрузка кода в виртуальную машину происходит через github. Т.е. вы редактируете (и проверяете) код вашего проекта локально на вашей машине, после этого делаете git push, после этого делаете git pull в терминале stepic.
+
+Тогда при решении очередного задания необходимые действия будут сведены к минимуму:
+
+git clone https://github.com/your_account/stepic_web_project.git /home/box/web
+bash /home/box/web/init.sh
+
+
+git add :/
+git commit -a -m "message"
+git push
