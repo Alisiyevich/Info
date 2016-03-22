@@ -1,0 +1,38 @@
+1. Изменяем конфиг сервера nginx, чтобы происходило проксирование на сервер gunicorn:
+###
+server {
+	listen 			80 default_server;
+
+	location ^~ /hello/ {
+		proxy_pass		http://0.0.0.0:8080;
+		}
+	}
+###
+
+2. Создаём файл с wsgi-приложением, например hello.py.
+
+3. Добавляем в init.sh cтроку:***
+gunicorn -b 0.0.0.0:8080 hello
+где hello - это hello.py
+-b 0.0.0.0:8080 - адрес gunicorn сервера
+
+4. Запускаем из папки с hello.py:
+bash init.sh
+
+
+
+***конфиг для gunicorn сервера нужно писать отдельно, хотя можно прописать почти все параметры как аргументы в терминале (как сделано выше):
+
+--создаем конфиг  gunicorn.conf.py,например:
+###
+
+bind = "0.0.0.0:8080"
+
+###
+Более полный конфиг с описанием в текущей папке.
+
+--в init.sh пишем:
+gunicorn -c home/dmitry/web/gunicorn.conf.py hello
+
+либо гипотеза:
+gunicorn -c gunicorn.conf.py hello, но папка с конфигом должна быть прописана в PATH
